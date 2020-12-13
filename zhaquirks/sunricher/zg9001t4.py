@@ -1,7 +1,8 @@
+"""Sunricher ZG9001T4 device."""
 from zigpy.quirks import CustomDevice
 
 from zigpy.profiles import zha
-from zigpy.zcl.clusters.general import Basic, PowerConfiguration, Identify, Scenes, Groups, OnOff, LevelControl, GreenPowerProxy
+from zigpy.zcl.clusters.general import Basic, PowerConfiguration, Identify, Scenes, Groups, OnOff, LevelControl, GreenPowerProxy, Ota
 from zigpy.zcl.clusters.lightlink import LightLink
 from zigpy.zcl.clusters.lighting import Color
 
@@ -31,7 +32,7 @@ class SunricherZG9001T4(CustomDevice):
         # device_version=0, 
         # input_clusters=[0, 3, 2821, 4096], 
         # output_clusters=[3, 4, 5, 6, 8, 25, 768, 4096])
-        ROFILE_ID: zha.PROFILE_ID,
+        PROFILE_ID: zha.PROFILE_ID,
         DEVICE_TYPE: zha.DeviceType.COLOR_DIMMER_SWITCH,
         INPUT_CLUSTERS: [
             Basic.cluster_id,
