@@ -5,6 +5,7 @@ from zigpy.profiles import zha
 from zigpy.zcl.clusters.general import Basic, PowerConfiguration, Identify, Scenes, Groups, OnOff, LevelControl, GreenPowerProxy, Ota
 from zigpy.zcl.clusters.lightlink import LightLink
 from zigpy.zcl.clusters.lighting import Color
+from zigpy.zcl.clusters.homeautomation import Diagnostic
 
 from ..const import (
     BUTTON_1,
@@ -36,8 +37,8 @@ class SunricherZG9001T4(CustomDevice):
         DEVICE_TYPE: zha.DeviceType.COLOR_DIMMER_SWITCH,
         INPUT_CLUSTERS: [
             Basic.cluster_id,
-            PowerConfiguration.cluster_id,
             Identify.cluster_id,
+            Diagnostic.cluster_id,
             LightLink.cluster_id
         ],
         OUTPUT_CLUSTERS: [
@@ -52,6 +53,8 @@ class SunricherZG9001T4(CustomDevice):
         ]
         }) for x in range(1, 5))
     
+    # SizePrefixedSimpleDescriptor(endpoint=242, profile=41440, device_type=97, 
+    # device_version=0, input_clusters=[], output_clusters=[33])
     signature_endpoints[242] = {
         PROFILE_ID: 41440,
         DEVICE_TYPE: 97,
@@ -68,8 +71,8 @@ class SunricherZG9001T4(CustomDevice):
         DEVICE_TYPE: zha.DeviceType.COLOR_DIMMER_SWITCH,
         INPUT_CLUSTERS: [
             Basic.cluster_id,
-            PowerConfiguration.cluster_id,
             Identify.cluster_id,
+            Diagnostic.cluster_id,
             LightLink.cluster_id
         ],
         OUTPUT_CLUSTERS: [
