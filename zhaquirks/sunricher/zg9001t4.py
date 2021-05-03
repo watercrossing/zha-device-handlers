@@ -120,7 +120,7 @@ class SunricherZG9001T4(CustomDevice):
     
     buttons = [BUTTON_1, BUTTON_2, BUTTON_3, BUTTON_4]
 
-    device_automation_triggers = dict(itertools.chain([itertools.chain([
+    device_automation_triggers = dict(itertools.chain(*[itertools.chain([
         ((btn, TURN_ON), {COMMAND: COMMAND_ON, CLUSTER_ID: 6, ENDPOINT_ID: i + 1}),
         ((btn, TURN_OFF), {COMMAND: COMMAND_OFF, CLUSTER_ID: 6, ENDPOINT_ID: i + 1}),
         ((btn, DIM_UP), {COMMAND: COMMAND_STEP_ON_OFF, CLUSTER_ID: 8, ENDPOINT_ID: i + 1, ARGS: [0, 32, 0]}),
