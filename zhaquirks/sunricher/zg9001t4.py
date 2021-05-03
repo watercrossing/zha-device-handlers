@@ -1,4 +1,5 @@
 """Sunricher ZG9001T4 device."""
+import itertools
 from zigpy.quirks import CustomDevice
 
 from zigpy.profiles import zha
@@ -17,6 +18,18 @@ from ..const import (
     COMMAND,
     COMMAND_ON,
     COMMAND_OFF,
+    COMMAND_STEP_ON_OFF,
+    COMMAND_STEP_COLOR_TEMP,
+    COMMAND_MOVE_ON_OFF,
+    COMMAND_STOP,
+    COMMAND_MOVE_TO_COLOR_TEMP,
+    SET_COLOR_TEMP,
+    ARGS,
+    ALT_LONG_PRESS,
+    ALT_DOUBLE_PRESS,
+    LONG_RELEASE,
+    DIM_UP,
+    DIM_DOWN,
     DEVICE_TYPE,
     DOUBLE_PRESS,
     ENDPOINT_ID,
@@ -104,14 +117,20 @@ class SunricherZG9001T4(CustomDevice):
     replacement = {
         ENDPOINTS: replacementEndpoints
     }
+    
+    buttons = [BUTTON_1, BUTTON_2, BUTTON_3, BUTTON_4]
 
-    device_automation_triggers = {
-        (BUTTON_1, TURN_ON) : {COMMAND: COMMAND_ON, CLUSTER_ID: 6, ENDPOINT_ID : 1},
-        (BUTTON_2, TURN_ON) : {COMMAND: COMMAND_ON, CLUSTER_ID: 6, ENDPOINT_ID : 2},
-        (BUTTON_3, TURN_ON) : {COMMAND: COMMAND_ON, CLUSTER_ID: 6, ENDPOINT_ID : 3},
-        (BUTTON_4, TURN_ON) : {COMMAND: COMMAND_ON, CLUSTER_ID: 6, ENDPOINT_ID : 4},
-        (BUTTON_1, TURN_OFF) : {COMMAND: COMMAND_OFF, CLUSTER_ID: 6, ENDPOINT_ID : 1},
-        (BUTTON_2, TURN_OFF) : {COMMAND: COMMAND_OFF, CLUSTER_ID: 6, ENDPOINT_ID : 2},
-        (BUTTON_3, TURN_OFF) : {COMMAND: COMMAND_OFF, CLUSTER_ID: 6, ENDPOINT_ID : 3},
-        (BUTTON_4, TURN_OFF) : {COMMAND: COMMAND_OFF, CLUSTER_ID: 6, ENDPOINT_ID : 4},
-    }
+    device_automation_triggers = dict(itertools.chain([itertools.chain([
+        ((btn, TURN_ON), {COMMAND: COMMAND_ON, CLUSTER_ID: 6, ENDPOINT_ID: i + 1}),
+        ((btn, TURN_OFF), {COMMAND: COMMAND_OFF, CLUSTER_ID: 6, ENDPOINT_ID: i + 1}),
+        ((btn, DIM_UP), {COMMAND: COMMAND_STEP_ON_OFF, CLUSTER_ID: 8, ENDPOINT_ID: i + 1, ARGS: [0, 32, 0]}),
+        ((btn, DIM_DOWN), {COMMAND: COMMAND_STEP_ON_OFF, CLUSTER_ID: 8, ENDPOINT_ID: i + 1, ARGS: [1, 32, 0]}),
+        ((btn, LONG_PRESS), {COMMAND: COMMAND_MOVE_ON_OFF, CLUSTER_ID: 8, ENDPOINT_ID: i + 1, ARGS: [0, 50]}), # increase brightness
+        ((btn, SHORT_PRESS), {COMMAND: COMMAND_MOVE_ON_OFF, CLUSTER_ID: 8, ENDPOINT_ID: i + 1, ARGS: [1, 50]}), # decrease brightness
+        ((btn, LONG_RELEASE), {COMMAND: COMMAND_STOP, CLUSTER_ID: 8, ENDPOINT_ID: i + 1}), ## stop increasing/decreasing brightness
+        ((btn, SET_COLOR_TEMP), {COMMAND: COMMAND_MOVE_TO_COLOR_TEMP, CLUSTER_ID: 768, ENDPOINT_ID: i + 1}),
+        ((btn, ALT_DOUBLE_PRESS), {COMMAND: "recall", CLUSTER_ID: 5, ENDPOINT_ID: i + 1}), ## scene button short press
+        ((btn, ALT_LONG_PRESS), {COMMAND: "store", CLUSTER_ID: 5, ENDPOINT_ID: i + 1}), ## scene button long press
+        ])
+    for i, btn in enumerate(buttons)
+    ]))
