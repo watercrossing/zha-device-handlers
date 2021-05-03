@@ -11,7 +11,11 @@ from ..const import (
     BUTTON_1,
     BUTTON_2,
     BUTTON_3,
+    TURN_OFF,
+    TURN_ON,
     COMMAND,
+    COMMAND_ON,
+    COMMAND_OFF,
     DEVICE_TYPE,
     DOUBLE_PRESS,
     ENDPOINT_ID,
@@ -97,4 +101,15 @@ class SunricherZG9001T4(CustomDevice):
 
     replacement = {
         ENDPOINTS: replacementEndpoints
+    }
+
+    device_automation_triggers = {
+        (BUTTON_1, TURN_ON) : {COMMAND: COMMAND_ON, CLUSER_ID: 6, ENDPOINT_ID : 1},
+        (BUTTON_2, TURN_ON) : {COMMAND: COMMAND_ON, CLUSER_ID: 6, ENDPOINT_ID : 2},
+        (BUTTON_3, TURN_ON) : {COMMAND: COMMAND_ON, CLUSER_ID: 6, ENDPOINT_ID : 3},
+        (BUTTON_4, TURN_ON) : {COMMAND: COMMAND_ON, CLUSER_ID: 6, ENDPOINT_ID : 4},
+        (BUTTON_1, TURN_OFF) : {COMMAND: COMMAND_OFF, CLUSER_ID: 6, ENDPOINT_ID : 1},
+        (BUTTON_2, TURN_OFF) : {COMMAND: COMMAND_OFF, CLUSER_ID: 6, ENDPOINT_ID : 2},
+        (BUTTON_3, TURN_OFF) : {COMMAND: COMMAND_OFF, CLUSER_ID: 6, ENDPOINT_ID : 3},
+        (BUTTON_4, TURN_OFF) : {COMMAND: COMMAND_OFF, CLUSER_ID: 6, ENDPOINT_ID : 4},
     }
