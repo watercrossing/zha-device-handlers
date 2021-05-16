@@ -124,7 +124,7 @@ class SunricherZG9001T4(CustomDevice):
         ((btn, TURN_ON), {COMMAND: COMMAND_ON, CLUSTER_ID: 6, ENDPOINT_ID: i + 1}),
         ((btn, TURN_OFF), {COMMAND: COMMAND_OFF, CLUSTER_ID: 6, ENDPOINT_ID: i + 1}),
         ((btn, DIM_UP), {COMMAND: COMMAND_STEP_ON_OFF, CLUSTER_ID: 8, ENDPOINT_ID: i + 1, ARGS: [0, 32, 1337]}), #increase brightness
-        ((btn, DIM_DOWN), {COMMAND: COMMAND_STEP_ON_OFF, CLUSTER_ID: 8, ENDPOINT_ID: i + 1, ARGS: [1, 32, 1337]}),
+        ((btn, DIM_DOWN), {COMMAND: COMMAND_STEP_ON_OFF, CLUSTER_ID: 8, ENDPOINT_ID: i + 1, ARGS: [1, 32, 0]}),
         ((btn, LONG_PRESS), {COMMAND: COMMAND_MOVE_ON_OFF, CLUSTER_ID: 8, ENDPOINT_ID: i + 1, ARGS: [0, 50]}), # increase brightness continuously
         ((btn, SHORT_PRESS), {COMMAND: COMMAND_MOVE_ON_OFF, CLUSTER_ID: 8, ENDPOINT_ID: i + 1, ARGS: [1, 50]}), # decrease brightness continuously
         ((btn, LONG_RELEASE), {COMMAND: COMMAND_STOP, CLUSTER_ID: 8, ENDPOINT_ID: i + 1}), ## stop increasing/decreasing brightness
